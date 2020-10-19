@@ -44,13 +44,13 @@ public class WordFrequencyGame {
 
     private Map<String, List<WordInfo>> getWordInfoMap(List<WordInfo> inputList) {
         Map<String, List<WordInfo>> map = new HashMap<>();
-        for (WordInfo input : inputList) {
-            if (!map.containsKey(input.getValue())) {
+        for (WordInfo wordInfo : inputList) {
+            if (!map.containsKey(wordInfo.getValue())) {
                 ArrayList arr = new ArrayList<>();
-                arr.add(input);
-                map.put(input.getValue(), arr);
+                arr.add(wordInfo);
+                map.put(wordInfo.getValue(), arr);
             } else {
-                map.get(input.getValue()).add(input);
+                map.get(wordInfo.getValue()).add(wordInfo);
             }
         }
 
