@@ -4,14 +4,14 @@ public class WordFrequencyGame {
 
     private static final String WHITE_SPACES = "\\s+";
 
-    public String getResult(String inputStr) {
+    public String getResult(String sentence) {
 
-        if (inputStr.split(WHITE_SPACES).length == 1) {
-            return inputStr + " 1";
+        if (sentence.split(WHITE_SPACES).length == 1) {
+            return sentence + " 1";
         } else {
             try {
                 //split the input string with 1 to n pieces of spaces
-                String[] arr = inputStr.split(WHITE_SPACES);
+                String[] arr = sentence.split(WHITE_SPACES);
 
                 List<Input> inputList = new ArrayList<>();
                 for (String s : arr) {
