@@ -13,12 +13,9 @@ public class WordFrequencyGame {
             try {
                 List<WordInfo> wordInfoList = calculateFrequency(sentence);
 
-                StringJoiner joiner = new StringJoiner("\n");
-                for (WordInfo wordInfo : wordInfoList) {
-                    String line = wordInfo.getValue() + " " + wordInfo.getWordCount();
-                    joiner.add(line);
-                }
-                return joiner.toString();
+                return wordInfoList.stream()
+                        .map(wordInfo -> String.format("%s %d", wordInfo.getValue(), wordInfo.getWordCount()))
+                        .collect(Collectors.joining("\n"));
             } catch (Exception e) {
                 return "Calculate Error";
             }
