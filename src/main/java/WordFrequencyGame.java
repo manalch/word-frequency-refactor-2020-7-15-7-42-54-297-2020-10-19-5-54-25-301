@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class WordFrequencyGame {
 
@@ -10,24 +11,7 @@ public class WordFrequencyGame {
             return sentence + " 1";
         } else {
             try {
-                String[] words = sentence.split(WHITE_SPACES);
-
-                List<WordInfo> wordInfoList = new ArrayList<>();
-                for (String word : words) {
-                    WordInfo wordInfo = new WordInfo(word, 1);
-                    wordInfoList.add(wordInfo);
-                }
-
-                Map<String, List<WordInfo>> wordInfoMap = getWordInfoMap(wordInfoList);
-
-                List<WordInfo> wordInfos = new ArrayList<>();
-                for (Map.Entry<String, List<WordInfo>> entry : wordInfoMap.entrySet()) {
-                    WordInfo input = new WordInfo(entry.getKey(), entry.getValue().size());
-                    wordInfos.add(input);
-                }
-                wordInfoList = wordInfos;
-
-                wordInfoList.sort((firstWord, secondWord) -> secondWord.getWordCount() - firstWord.getWordCount());
+                List<WordInfo> wordInfoList = calculateFrequency(sentence);
 
                 StringJoiner joiner = new StringJoiner("\n");
                 for (WordInfo wordInfo : wordInfoList) {
@@ -39,6 +23,25 @@ public class WordFrequencyGame {
                 return "Calculate Error";
             }
         }
+    }
+
+    private List<WordInfo> calculateFrequency(String sentence) {
+        String[] words = sentence.split(WHITE_SPACES);
+        List<WordInfo> wordInfoList = Arrays.stream(words)
+                .map(word -> new WordInfo(word, 1))
+                .collect(Collectors.toList());
+
+        Map<String, List<WordInfo>> wordInfoMap = getWordInfoMap(wordInfoList);
+
+        List<WordInfo> wordInfos = new ArrayList<>();
+        for (Map.Entry<String, List<WordInfo>> entry : wordInfoMap.entrySet()) {
+            WordInfo input = new WordInfo(entry.getKey(), entry.getValue().size());
+            wordInfos.add(input);
+        }
+        wordInfoList = wordInfos;
+
+        wordInfoList.sort((firstWord, secondWord) -> secondWord.getWordCount() - firstWord.getWordCount());
+        return wordInfoList;
     }
 
 
@@ -54,9 +57,6 @@ public class WordFrequencyGame {
             }
         }
 
-
         return wordInfoMap;
     }
-
-
 }
