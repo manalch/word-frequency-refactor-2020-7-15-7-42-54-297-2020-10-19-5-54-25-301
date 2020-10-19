@@ -29,15 +29,10 @@ public class WordFrequencyGame {
 
         Map<String, List<WordInfo>> wordInfoMap = getWordInfoMap(wordInfoList);
 
-        List<WordInfo> wordInfos = new ArrayList<>();
-        for (Map.Entry<String, List<WordInfo>> entry : wordInfoMap.entrySet()) {
-            WordInfo wordInfo = new WordInfo(entry.getKey(), entry.getValue().size());
-            wordInfos.add(wordInfo);
-        }
-        wordInfoList = wordInfos;
-
-        wordInfoList.sort((firstWord, secondWord) -> secondWord.getWordCount() - firstWord.getWordCount());
-        return wordInfoList;
+        return wordInfoMap.entrySet().stream()
+                .map(wordInfoEntrySet -> new WordInfo(wordInfoEntrySet.getKey(), wordInfoEntrySet.getValue().size()))
+                .sorted((initialWordInfo, nextWordInfo) -> Integer.compare(nextWordInfo.getWordCount(), initialWordInfo.getWordCount()))
+                .collect(Collectors.toList());
     }
 
 
