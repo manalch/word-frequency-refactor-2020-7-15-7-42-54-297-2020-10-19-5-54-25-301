@@ -14,7 +14,7 @@ public class WordFrequencyGame {
             List<WordInfo> wordInfoList = getCalculateFrequencyWordInfo(sentence);
 
             return wordInfoList.stream()
-                    .map(wordInfo -> String.format("%s %d", wordInfo.getValue(), wordInfo.getWordCount()))
+                    .map(wordInfo -> String.format("%s %d", wordInfo.getWord(), wordInfo.getWordCount()))
                     .collect(Collectors.joining("\n"));
         } catch (Exception e) {
             return "Calculate Error";
@@ -42,12 +42,12 @@ public class WordFrequencyGame {
     private Map<String, List<WordInfo>> getWordInfoMap(List<WordInfo> wordInfoList) {
         Map<String, List<WordInfo>> wordInfoMap = new HashMap<>();
         for (WordInfo wordInfo : wordInfoList) {
-            if (!wordInfoMap.containsKey(wordInfo.getValue())) {
+            if (!wordInfoMap.containsKey(wordInfo.getWord())) {
                 List<WordInfo> wordInfos = new ArrayList<>();
                 wordInfos.add(wordInfo);
-                wordInfoMap.put(wordInfo.getValue(), wordInfos);
+                wordInfoMap.put(wordInfo.getWord(), wordInfos);
             } else {
-                wordInfoMap.get(wordInfo.getValue()).add(wordInfo);
+                wordInfoMap.get(wordInfo.getWord()).add(wordInfo);
             }
         }
         return wordInfoMap;
