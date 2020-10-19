@@ -8,10 +8,10 @@ public class WordFrequencyGame {
 
     public String getResult(String sentence) {
         try {
-            if (sentence.split(WHITE_SPACES).length == 1) {
+            if (isWord(sentence)) {
                 return sentence.concat(ONE_WORD_COUNT);
             }
-            List<WordInfo> wordInfoList = calculateFrequency(sentence);
+            List<WordInfo> wordInfoList = getCalculateFrequencyWordInfo(sentence);
 
             return wordInfoList.stream()
                     .map(wordInfo -> String.format("%s %d", wordInfo.getValue(), wordInfo.getWordCount()))
@@ -21,7 +21,11 @@ public class WordFrequencyGame {
         }
     }
 
-    private List<WordInfo> calculateFrequency(String sentence) {
+    private boolean isWord(String sentence) {
+        return sentence.split(WHITE_SPACES).length == 1;
+    }
+
+    private List<WordInfo> getCalculateFrequencyWordInfo(String sentence) {
         String[] words = sentence.split(WHITE_SPACES);
         List<WordInfo> wordInfoList = Arrays.stream(words)
                 .map(word -> new WordInfo(word, 1))
@@ -35,7 +39,6 @@ public class WordFrequencyGame {
                 .collect(Collectors.toList());
     }
 
-
     private Map<String, List<WordInfo>> getWordInfoMap(List<WordInfo> wordInfoList) {
         Map<String, List<WordInfo>> wordInfoMap = new HashMap<>();
         for (WordInfo wordInfo : wordInfoList) {
@@ -47,7 +50,6 @@ public class WordFrequencyGame {
                 wordInfoMap.get(wordInfo.getValue()).add(wordInfo);
             }
         }
-
         return wordInfoMap;
     }
 }
