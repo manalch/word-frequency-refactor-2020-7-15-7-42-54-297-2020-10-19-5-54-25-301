@@ -1,10 +1,10 @@
 public class WordInfo {
     private String word;
-    private int count;
+    private int wordCount;
 
-    public WordInfo(String word, int count) {
+    public WordInfo(String word, int wordCount) {
         this.word = word;
-        this.count = count;
+        this.wordCount = wordCount;
     }
 
     public String getWord() {
@@ -12,6 +12,6 @@ public class WordInfo {
     }
 
     public int getWordCount() {
-        return this.count;
+        return this.wordCount;
     }
 }
