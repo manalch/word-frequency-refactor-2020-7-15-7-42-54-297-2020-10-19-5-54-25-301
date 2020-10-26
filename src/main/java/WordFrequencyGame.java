@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class WordFrequencyGame {
@@ -12,10 +15,7 @@ public class WordFrequencyGame {
                 return sentence.concat(ONE_WORD_COUNT);
             }
             List<WordInfo> wordInfoList = getCalculateFrequencyWordInfo(sentence);
-
-            return wordInfoList.stream()
-                    .map(wordInfo -> String.format("%s %d", wordInfo.getWord(), wordInfo.getWordCount()))
-                    .collect(Collectors.joining("\n"));
+            return getWordInfoMap(wordInfoList);
         } catch (Exception e) {
             return "Calculate Error";
         }
@@ -26,30 +26,18 @@ public class WordFrequencyGame {
     }
 
     private List<WordInfo> getCalculateFrequencyWordInfo(String sentence) {
-        String[] words = sentence.split(WHITE_SPACES);
-        List<WordInfo> wordInfoList = Arrays.stream(words)
-                .map(word -> new WordInfo(word, 1))
-                .collect(Collectors.toList());
+        List<String> words = Arrays.asList(sentence.split(WHITE_SPACES));
+        HashSet<String> distinctWords = new HashSet<>(words);
 
-        Map<String, List<WordInfo>> wordInfoMap = getWordInfoMap(wordInfoList);
-
-        return wordInfoMap.entrySet().stream()
-                .map(wordInfoEntrySet -> new WordInfo(wordInfoEntrySet.getKey(), wordInfoEntrySet.getValue().size()))
-                .sorted((initialWordInfo, nextWordInfo) -> Integer.compare(nextWordInfo.getWordCount(), initialWordInfo.getWordCount()))
+        return distinctWords.stream()
+                .map(word -> new WordInfo(word, Collections.frequency(words, word)))
+                .sorted((firstWord, secondWord) -> secondWord.getWordCount() - firstWord.getWordCount())
                 .collect(Collectors.toList());
     }
 
-    private Map<String, List<WordInfo>> getWordInfoMap(List<WordInfo> wordInfoList) {
-        Map<String, List<WordInfo>> wordInfoMap = new HashMap<>();
-        for (WordInfo wordInfo : wordInfoList) {
-            if (!wordInfoMap.containsKey(wordInfo.getWord())) {
-                List<WordInfo> wordInfos = new ArrayList<>();
-                wordInfos.add(wordInfo);
-                wordInfoMap.put(wordInfo.getWord(), wordInfos);
-            } else {
-                wordInfoMap.get(wordInfo.getWord()).add(wordInfo);
-            }
-        }
-        return wordInfoMap;
+    private String getWordInfoMap(List<WordInfo> wordInfoList) {
+        return wordInfoList.stream()
+                .map(wordInfo -> String.format("%s %d", wordInfo.getWord(), wordInfo.getWordCount()))
+                .collect(Collectors.joining("\n"));
     }
 }
