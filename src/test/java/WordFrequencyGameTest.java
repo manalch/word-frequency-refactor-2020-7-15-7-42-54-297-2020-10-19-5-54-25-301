@@ -1,6 +1,6 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WordFrequencyGameTest {
 
@@ -58,6 +58,14 @@ public class WordFrequencyGameTest {
         //When
         String result = game.getResult(inputStr);
         //Then
-        assertEquals(result, expectResult);
+        assertEquals(expectResult, result);
+    }
+
+    @Test
+    void should_return_calculate_error_when_encountered_exceptions() {
+        //when
+        String expectResult = "Calculate Error";
+        //then
+        validate_Input_words_process_to_expected_word(null, expectResult);
     }
 }
